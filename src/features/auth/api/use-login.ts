@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useMutation, useMutationState } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useMutation, useMutationState, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
 
 import { client } from "@/lib/rpc";
@@ -8,6 +9,9 @@ type ResponseType = InferResponseType<typeof client.api.auth.login["$post"]>;
 type RequestType = InferRequestType<typeof client.api.auth.login["$post"]>;
 
 export const useLogin = () => {
+    const queryClient = useQueryClient();
+    const router = useRouter();
+    
     const mutation = useMutation<
     ResponseType,
     Error,
@@ -17,6 +21,10 @@ export const useLogin = () => {
             const response = await client.api.auth.login["$post"]({ json });
             return await response.json();
         },
+        onSuccess: () => {
+            router.refresh();
+            queryClient.invalidateQueries({ queryKey: ["current"] });
+        }
     });
 
     return mutation;

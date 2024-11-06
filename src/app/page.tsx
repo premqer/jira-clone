@@ -1,30 +1,15 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-import { useCurrent } from "@/features/auth/api/use-current";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useLogout } from "@/features/auth/api/use-logout";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Button } from "@/components/ui/button";
+import { getCurrent } from "@/features/auth/actions";
 import { UserButton } from "@/features/auth/components/user-button";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  const router = useRouter();
-  const { data, isLoading } = useCurrent();
-  // const { mutate } = useLogout();
+export default async function Home() {
+  const user = await getCurrent();
 
-  useEffect(() => {
-    if (!data && !isLoading) {
-      router.push("/sign-in");
-    }
-
-  }, [data]);
+  if (!user) redirect("/sign-in");
 
   return (
     <div>
       <UserButton />
     </div>
   );
-}
+};
