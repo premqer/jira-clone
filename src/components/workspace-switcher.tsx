@@ -15,6 +15,7 @@ import {
 
 export const WorkspaceSwitcher = () => {
     const { data: workspaces } = useGetWorkspaces();
+    console.log("workspaces:", workspaces);
 
     return (
         <div className="flex flex-col gap-y-2">
