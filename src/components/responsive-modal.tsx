@@ -32,13 +32,13 @@ export const ResponsiveModal = ({
             </Dialog>
         );
 
-    };
+    }
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
             <DrawerContent>
-            <div className="overflow-y-auto hide-scrollbar max-h-[85vh]">
-                {children}
-            </div>
+                <div className="overflow-y-auto hide-scrollbar max-h-[85vh]">
+                    {children}
+                </div>
             </DrawerContent>
         </Drawer>
     );
